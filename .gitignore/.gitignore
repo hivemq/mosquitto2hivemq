@@ -1,1 +1,9 @@
-.idea
+/.idea
+/out
+/*.iml
+/mosquitto2hivemq.iml
+/.idea/
+/*log.*.txt
+/dependency-reduced-pom.xml
+/build
+/.gradle/
