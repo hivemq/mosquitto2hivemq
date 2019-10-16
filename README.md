@@ -24,7 +24,7 @@ A timestamped folder will be created, which contains a handy backup file. You ca
 
 To do a clean build, issue the following command:
 
-`$ ./mvn clean package`
+`$ ./gradlew build`
 
 This creates the **migration-tool.jar** which can then be executed.
 

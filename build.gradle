@@ -7,8 +7,9 @@ plugins {
     id 'maven-publish'
     id 'application'
     id "com.github.hierynomus.license" version "0.15.0"
-    id 'de.thetaphi.forbiddenapis' version '2.6' apply false
     id 'com.github.johnrengelman.shadow' version '4.0.4' apply false
+    id 'com.github.breadmoirai.github-release' version '2.2.9' apply false
+    id 'com.jfrog.bintray' version '1.8.4' apply false
 }
 
 repositories {
@@ -16,7 +17,6 @@ repositories {
     mavenCentral()
 }
 
-apply plugin: 'de.thetaphi.forbiddenapis'
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
 
@@ -45,7 +45,9 @@ dependencies {
     testCompile 'com.hivemq:hivemq-mqtt-client:1.1.2'
 }
 
-sourceCompatibility = '11'
+//sourceCompatibility = '11'
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 publishing {
     publications {
@@ -91,17 +93,17 @@ ext {
     appJarName = "${readableName}.jar"
 
     // Directories
-
-    iconsDir = "${projectDir}/icons"
-
-    resDir = "${projectDir}/res"
-    pkgDir = "${projectDir}/packages"
+    pkgDir = "${projectDir}/packages/${project.version}"
 
     // Vendor details
     copyright = "Copyright 2019 HiveMQ and the HiveMQ Community"
     vendor = "HiveMQ GmbH"
     website = "https://www.hivemq.com/"
     license = "${projectDir}/LICENSE"
+
+    projectString = "mosquitto2hivemq-${project.version}"
+    packagingDir = "${buildDir}/package"
+    packagingProjectDir = "${packagingDir}/${projectString}"
 
 }
 
@@ -145,19 +147,6 @@ task updateThirdPartyLicenses {
         }
     }
 }
-
-forbiddenApisMain {
-    exclude '**/LoggingBootstrap.class'
-}
-
-forbiddenApis {
-    bundledSignatures = ['jdk-system-out']
-    ignoreFailures = true
-}
-
-//disable
-forbiddenApisTest.enabled = false
-
 
 test {
     useJUnitPlatform()
@@ -217,6 +206,39 @@ test {
 
 }
 
+task cleanPackaging {
+    group 'packaging'
+
+    doFirst {
+        delete "${project.packagingDir}"
+        delete "${pkgDir}"
+    }
+}
+
+task copyJar(type: Copy) {
+    group 'packaging'
+
+    mustRunAfter ':cleanPackaging'
+    dependsOn ':jar'
+
+    from "${buildDir}/libs/${projectString}.jar"
+    destinationDir = new File("${project.packagingDir}")
+}
+
+task packagingDistribution( type: Zip) {
+    group 'packaging'
+
+    dependsOn ':cleanPackaging'
+    dependsOn ':copyJar'
+
+    archiveFileName = "${projectString}.zip"
+    destinationDirectory =  new File("${pkgDir}")
+
+    from "${project.packagingDir}"
+
+}
+
+defaultTasks 'clean', 'packagingDistribution'
 
 // Helpers
 import java.security.DigestInputStream
