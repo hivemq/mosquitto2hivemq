@@ -49,7 +49,7 @@ public class XmlComparatorUtil {
 
                     //The Mosquitto message expiry interval is calculated with the messages expiry time and the export timestamp,
                     //therefore we need an epsilon (10)
-                    if (abs(mosquittoMessageExpiryInterval-hiveMqMessageExpiryInterval) > 10000) {
+                    if (hiveMqMessageExpiryInterval < mosquittoMessageExpiryInterval) {
                         System.out.println(difference);
                         return false;
                     }
