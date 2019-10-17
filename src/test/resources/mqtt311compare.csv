@@ -1,0 +1,10 @@
+Input of mosquitto.db File, Expected created HiveMQ .backup File
+mosquitto_qos0_simple.db, hivemq_qos0_simple.backup
+mosquitto_qos0_simple_queuedMessage.db, hivemq_qos0_simple_queuedMessage.backup
+mosquitto_qos1_simple.db, hivemq_qos1_simple.backup
+mosquitto_qos1_simple_queuedMessage.db, hivemq_qos1_simple_queuedMessage.backup
+mosquitto_qos2_simple.db, hivemq_qos2_simple.backup
+mosquitto_qos2_simple_queuedMessage.db, hivemq_qos2_simple_queuedMessage.backup
+mosquitto_qos0_retained.db, hivemq_qos0_retained.backup
+mosquitto_qos1_retained.db, hivemq_qos1_retained.backup
+mosquitto_qos2_retained.db, hivemq_qos2_retained.backup

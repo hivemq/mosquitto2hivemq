@@ -104,12 +104,12 @@ dependencies {
     //testCompile group: 'org.testcontainers', name: 'testcontainers', version: testcontainersVersion
     //testCompile group: 'org.testcontainers', name: 'junit-jupiter', version: testcontainersVersion
 
-    //testCompile group: 'org.xmlunit', name: 'xmlunit-core', version: xmlUnitVersion
-    //testCompile group: 'org.xmlunit', name: 'xmlunit-matchers', version: xmlUnitVersion
-    //testCompile group: 'org.xmlunit', name: 'xmlunit-assertj', version: xmlUnitVersion
-    //testCompile group: 'org.xmlunit', name: 'xmlunit-placeholders', version: xmlUnitVersion
+    testCompile group: 'org.xmlunit', name: 'xmlunit-core', version: xmlUnitVersion
+    testCompile group: 'org.xmlunit', name: 'xmlunit-matchers', version: xmlUnitVersion
+    testCompile group: 'org.xmlunit', name: 'xmlunit-assertj', version: xmlUnitVersion
+    testCompile group: 'org.xmlunit', name: 'xmlunit-placeholders', version: xmlUnitVersion
 
-    //testCompile group: 'org.assertj', name: 'assertj-core', version: assertjVersion
+    testCompile group: 'org.assertj', name: 'assertj-core', version: assertjVersion
 
 }
 
