@@ -45,7 +45,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * @author Florian Limpöck
- * @since 1.0.0
+ * @since 1.0
  */
 public class ClientSessionExporter {
 
@@ -54,21 +54,35 @@ public class ClientSessionExporter {
     private final String hiveMqVersion;
     private final Path fileSaveLocation;
     private final long timestamp;
+    @SuppressWarnings("FieldCanBeLocal")
     private long SESSION_EXPIRE_ON_DISCONNECT = 0;
 
+    /**
+     * Creates a ClientSessionExporter.
+     *
+     * @param timestamp        Creation timestamp.
+     * @param fileSaveLocation The folder the client sessions get saved to.
+     * @param clusterId        The HiveMQ cluster id.
+     * @param hiveMqVersion    The used HiveMQ version.
+     */
     public ClientSessionExporter(final long timestamp,
                                  final @NotNull Path fileSaveLocation,
                                  final @NotNull String clusterId,
-                                 final @NotNull String hiveMqVersion,
-                                 final int maxFileSize) {
+                                 final @NotNull String hiveMqVersion) {
         this.timestamp = timestamp;
         this.fileSaveLocation = fileSaveLocation;
         this.clusterId = clusterId;
         this.hiveMqVersion = hiveMqVersion;
-        //this.maxFileSize = maxFileSize;
     }
 
-
+    /**
+     * Writes all client sessions to XML.
+     *
+     * @param clients       All client sessions.
+     * @param subscriptions All client subscriptions.
+     * @param clientMsgs    All client messages.
+     * @param msgStore      All stored messages.
+     */
     public void writeToXml(final @NotNull List<ChunkClient> clients,
                            final @NotNull List<ChunkSubscription> subscriptions,
                            final @NotNull List<ChunkClientMessage> clientMsgs,
@@ -189,7 +203,7 @@ public class ClientSessionExporter {
         DataExportUtil.writeNumber(xmlStreamWriter, System.currentTimeMillis(), EXPORTED_AT, 3);
         DataExportUtil.writeString(xmlStreamWriter, QueuedMessageXML.QueuedMessageType.PUBLISH.getName(), QueuedMessageXML.TYPE, 3);
         DataExportUtil.writeNumber(xmlStreamWriter, 0, MessageXML.PACKET_ID, 3);
-        DataExportUtil.writeBoolean(xmlStreamWriter, message.getRetain() == 1, QueuedMessageXML.FROM_RETAINED_MESSAGE, 3);
+        DataExportUtil.writeBoolean(xmlStreamWriter, message.getRetain(), QueuedMessageXML.FROM_RETAINED_MESSAGE, 3);
         DataExportUtil.writeNumber(xmlStreamWriter, message.getStoreId(), MessageXML.PUBLISH_ID, 3);
         DataExportUtil.writeString(xmlStreamWriter, "MOSQU", MessageXML.CLUSTER_ID, 3);
 
@@ -205,8 +219,8 @@ public class ClientSessionExporter {
         DataExportUtil.writeStringEncoded(xmlStreamWriter, message.getContentType(), MessageXML.CONTENT_TYPE, 3);
         DataExportUtil.writeBytes(xmlStreamWriter, message.getPayload(), MessageXML.MESSAGE, 3);
         DataExportUtil.writeBytes(xmlStreamWriter, message.getCorrelationData(), MessageXML.CORRELATION_DATA, 3);
-        DataExportUtil.writeBoolean(xmlStreamWriter, message.getRetain() == 1, MessageXML.RETAINED, 3);
-        DataExportUtil.writeBoolean(xmlStreamWriter, clientMessage.getRetainDuplicate() == 1, MessageXML.DUPLICATE_DELIVERY, 3);
+        DataExportUtil.writeBoolean(xmlStreamWriter, message.getRetain(), MessageXML.RETAINED, 3);
+        DataExportUtil.writeBoolean(xmlStreamWriter, clientMessage.getRetainDuplicate(), MessageXML.DUPLICATE_DELIVERY, 3);
         DataExportUtil.writeNumber(xmlStreamWriter, timestamp, MessageXML.TIMESTAMP, 3);
         DataExportUtil.writeNumber(xmlStreamWriter, clientMessage.getQos(), MessageXML.QOS, 3);
         DataExportUtil.writeNumber(xmlStreamWriter, (message.getExpiryTime() == 0) ? 4_294_967_296L : (message.getExpiryTime() - timestamp / 1000), MessageXML.MESSAGE_EXPIRY, 3);

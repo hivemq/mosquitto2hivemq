@@ -33,11 +33,12 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * @author Florian Limpöck
- * @since 4.2.0
+ * @since 1.0
  */
 public class DataExportUtil {
 
     public static final @NotNull BaseEncoding BASE_64 = BaseEncoding.base64();
+    @SuppressWarnings("SpellCheckingInspection")
     private static final @NotNull String VALID_CHARS = "01234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_=!/\\'.,?()[]{}%$§*+\"'#@€`´";
 
     //do not instantiate
@@ -166,7 +167,7 @@ public class DataExportUtil {
         return !StringUtils.containsOnly(string, VALID_CHARS);
     }
 
-    
+
     public static @NotNull String getNextFileName(final @NotNull File folder, final @NotNull String identifier) {
 
         final @NotNull StringBuilder fileNameBuilder = new StringBuilder();

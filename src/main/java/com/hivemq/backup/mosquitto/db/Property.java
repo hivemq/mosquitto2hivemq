@@ -23,17 +23,47 @@ import java.util.Arrays;
 
 /**
  * @author Lukas Brand
+ * @since 1.0
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class Property {
 
+    /**
+     * The property identifier.
+     */
     private final @NotNull PropertyType identifier;
+
+    /**
+     * The property byte value (optional).
+     */
     private final byte byteValue;
+
+    /**
+     * The property short value (optional).
+     */
     private final short shortValue;
+
+    /**
+     * The property integer or variable integer value. (optional)
+     */
     private final int intValueOrVar;
+
+    /**
+     * The property String value. (optional)
+     */
     private final @NotNull String key;
+
+    /**
+     * the property byte array value (optional)
+     */
     private final @Nullable byte[] byteArrayValue;
 
-
+    /**
+     * Creates a Property with byte value.
+     *
+     * @param identifier The properties identifier.
+     * @param byteValue  The properties byte value.
+     */
     Property(final @NotNull PropertyType identifier, final byte byteValue) {
         this.identifier = identifier;
         this.byteValue = byteValue;
@@ -44,7 +74,12 @@ public class Property {
         this.key = "";
     }
 
-    @SuppressWarnings("unused")
+    /**
+     * Creates a property with short value.
+     *
+     * @param identifier The properties identifier.
+     * @param shortValue The properties short value.
+     */
     Property(final @NotNull PropertyType identifier, final short shortValue) {
         this.identifier = identifier;
         this.shortValue = shortValue;
@@ -55,6 +90,12 @@ public class Property {
         this.key = "";
     }
 
+    /**
+     * Creates a property with integer or variable integer value.
+     *
+     * @param identifier    The properties identifier.
+     * @param intValueOrVar The properties integer or variable integer value.
+     */
     Property(final @NotNull PropertyType identifier, final int intValueOrVar) {
         this.identifier = identifier;
         this.intValueOrVar = intValueOrVar;
@@ -65,6 +106,12 @@ public class Property {
         this.key = "";
     }
 
+    /**
+     * Creates a property with string value.
+     *
+     * @param identifier The properties identifier.
+     * @param key        The properties String value.
+     */
     Property(final @NotNull PropertyType identifier, final @NotNull String key) {
         this.identifier = identifier;
 
@@ -75,6 +122,12 @@ public class Property {
         this.key = key;
     }
 
+    /**
+     * Creates a property with a byte array value.
+     *
+     * @param identifier     The properties identifier.
+     * @param byteArrayValue The properties byte array value.
+     */
     Property(final @NotNull PropertyType identifier, final @NotNull byte[] byteArrayValue) {
         this.identifier = identifier;
         this.byteArrayValue = byteArrayValue;
@@ -85,6 +138,13 @@ public class Property {
         this.intValueOrVar = 0;
     }
 
+    /**
+     * Creates a property with a key and its byte array value.
+     *
+     * @param identifier     The properties identifier.
+     * @param key            The properties String key value.
+     * @param byteArrayValue The properties byte array value.
+     */
     Property(final @NotNull PropertyType identifier, final @NotNull String key, final @NotNull byte[] byteArrayValue) {
         this.identifier = identifier;
         this.key = key;
@@ -95,31 +155,65 @@ public class Property {
         this.intValueOrVar = 0;
     }
 
+    /**
+     * Getter method for the property identifier.
+     *
+     * @return A PropertyType which cannot be null.
+     */
     public @NotNull PropertyType getIdentifier() {
         return identifier;
     }
 
+    /**
+     * Getter method for the optional property byte value.
+     *
+     * @return A byte.
+     */
     public byte getByteValue() {
         return byteValue;
     }
 
+    /**
+     * Getter method for the optional property short value.
+     *
+     * @return A short.
+     */
     public short getShortValue() {
         return shortValue;
     }
 
+    /**
+     * Getter method for the optional property integer or variable integer value.
+     *
+     * @return An integer or variable integer.
+     */
     public int getIntValueOrVar() {
         return intValueOrVar;
     }
 
+    /**
+     * Getter method for the optional property String value.
+     *
+     * @return A String which cannot be null.
+     */
     public @NotNull String getKey() {
         return key;
     }
 
+    /**
+     * Getter method for the optional property byte array value.
+     *
+     * @return A byte array which can be null.
+     */
     public @Nullable byte[] getByteArrayValue() {
         return byteArrayValue;
     }
 
-
+    /**
+     * To String method for Property to print out all fields.
+     *
+     * @return A String which is formatted to be print out as command line information.
+     */
     @Override
     public @NotNull String toString() {
         return "{" +
@@ -135,7 +229,13 @@ public class Property {
 
     //VarIntegers:
 
-    public static int readVarInt(final @NotNull byte[] payload) {
+    /**
+     * Reads a variable integer out of a byte array.
+     *
+     * @param payload byte array containing a variable integer.
+     * @return A variable integer.
+     */
+    static int readVarInt(final @NotNull byte[] payload) {
         int index = 0;
         varIntLength = 0;
         int lword = 0;
@@ -165,9 +265,17 @@ public class Property {
         return -1;
     }
 
+    /**
+     * The byte length of the read variable integer.
+     */
     private static byte varIntLength = 0;
 
-    public static byte getVarIntLength() {
+    /**
+     * Getter method for the byte length of the variable integer
+     *
+     * @return A byte.
+     */
+    static byte getVarIntLength() {
         return varIntLength;
     }
 }

@@ -41,7 +41,7 @@ import static com.hivemq.backup.mosquitto.format.GlobalXML.EXPORTED_AT;
 
 /**
  * @author Florian Limpöck
- * @since 1.0.0
+ * @since 1.0
  */
 
 public class RetainedMessagesExporter {
@@ -59,7 +59,20 @@ public class RetainedMessagesExporter {
     private @Nullable XMLStreamWriter xmlStreamWriter;
     private FileOutputStream fileOutputStream;
 
-    public RetainedMessagesExporter(final long timestamp, final @NotNull Path fileSaveLocation, final @NotNull String clusterId, final @NotNull String hiveMqVersion, final int maxFileSize) {
+    /**
+     * Creates a RetainedMessagesExporter.
+     *
+     * @param timestamp        Creation timestamp.
+     * @param fileSaveLocation The folder the retained messages get saved to.
+     * @param clusterId        The HiveMQ cluster id.
+     * @param hiveMqVersion    The used HiveMQ version.
+     * @param maxFileSize      The maximum file size for a retained message XML file.
+     */
+    public RetainedMessagesExporter(final long timestamp,
+                                    final @NotNull Path fileSaveLocation,
+                                    final @NotNull String clusterId,
+                                    final @NotNull String hiveMqVersion,
+                                    final int maxFileSize) {
         this.timestamp = timestamp;
         this.fileSaveLocation = fileSaveLocation;
         this.clusterId = clusterId;
@@ -67,9 +80,13 @@ public class RetainedMessagesExporter {
         this.maxFileSize = maxFileSize;
     }
 
-
+    /**
+     * Writes all retained messages to XML.
+     *
+     * @param retainedMessages All retained messages.
+     */
     @VisibleForTesting
-    public void writeToXml(final @Nullable List<ChunkMsgStore> retainedMessages, final boolean inProgress) {
+    public void writeToXml(final @Nullable List<ChunkMsgStore> retainedMessages) {
 
         if (retainedMessages == null || retainedMessages.size() == 0) {
             return;
@@ -106,9 +123,9 @@ public class RetainedMessagesExporter {
 
             for (final @Nullable ChunkMsgStore retainedMessage : retainedMessages) {
 
-                //we dont need tombstones.
+                //we don't need tombstones.
                 if (retainedMessage == null /*|| retainedMessage.isDeleted()*/) {
-                    // we dont want to iterate over tombstones again
+                    // we don't want to iterate over tombstones again
                     continue;
                 }
 
@@ -125,7 +142,7 @@ public class RetainedMessagesExporter {
                     if (retainedMessages.isEmpty()) {
                         return;
                     }
-                    writeToXml(retainedMessages, inProgress);
+                    writeToXml(retainedMessages);
                     break;
                 }
             }

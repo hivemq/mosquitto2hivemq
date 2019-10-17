@@ -39,10 +39,11 @@ import static org.apache.commons.compress.utils.IOUtils.copy;
 
 /**
  * @author Florian Limpöck
- * @since 4.2.0
+ * @since 1.0
  */
 public class DataExportZipper {
 
+    @SuppressWarnings("SpellCheckingInspection")
     public static final String EXPORT_DATE_FORMAT = "yyyyMMdd-HHmmss";
     private static final int COMPRESSION = Deflater.BEST_SPEED;
     private final String clusterId;
@@ -50,6 +51,14 @@ public class DataExportZipper {
     private final String hiveMqVersion;
     private final int zipBufferSize;
 
+    /**
+     * Creates a DataExportZipper
+     *
+     * @param clusterId            The HiveMQ cluster id.
+     * @param backupFolderLocation The folder the backup is created in.
+     * @param hiveMqVersion        The used HiveMQ version.
+     * @param zipBufferSize        The maximum buffer size.
+     */
     public DataExportZipper(final @NotNull String clusterId,
                             final @NotNull Path backupFolderLocation,
                             final @NotNull String hiveMqVersion,
@@ -95,6 +104,7 @@ public class DataExportZipper {
                 zos.closeEntry();
                 return;
             }
+
             //noinspection NullableProblems
             for (final @NotNull File file : files) {
                 zipFile(buffer, zos, file, ze.getName());
@@ -133,7 +143,7 @@ public class DataExportZipper {
         final @NotNull List<ZipFile> originList = new ArrayList<>(inputZipFiles.length);
 
         boolean retainedMessagesFolderCreated = false;
-        boolean sharedSubscriptinsFolderCreated = false;
+        boolean sharedSubscriptionsFolderCreated = false;
         boolean clientSessionsFolderCreated = false;
 
         try (final @NotNull FileOutputStream out = new FileOutputStream(outputZipPath)) {
@@ -163,10 +173,10 @@ public class DataExportZipper {
                         retainedMessagesFolderCreated = true;
                         continue;
                     }
-                    if (zipEntry.getName().equals("shared-subscriptions/") && !sharedSubscriptinsFolderCreated) {
+                    if (zipEntry.getName().equals("shared-subscriptions/") && !sharedSubscriptionsFolderCreated) {
                         resultZip.putNextEntry(zipEntry);
                         resultZip.closeEntry();
-                        sharedSubscriptinsFolderCreated = true;
+                        sharedSubscriptionsFolderCreated = true;
                         continue;
                     }
                     if (zipEntry.getName().equals("client-sessions/") && !clientSessionsFolderCreated) {
@@ -196,6 +206,7 @@ public class DataExportZipper {
         return backupFolder.getAbsolutePath() + File.separator + fileTimeStamp + ".hivemq-" + hiveMqVersion + ".backup";
     }
 
+    @SuppressWarnings("InnerClassMayBeStatic")
     private class ZipEntryIndexed {
         private final @NotNull ZipEntry zipEntry;
         private final int index;

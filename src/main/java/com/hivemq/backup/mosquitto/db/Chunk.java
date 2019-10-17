@@ -18,6 +18,7 @@ package com.hivemq.backup.mosquitto.db;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.tinylog.Logger;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -26,10 +27,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
-import org.tinylog.Logger;
-
 /**
  * @author Lukas Brand
+ * @since 1.0
  */
 public class Chunk {
 
@@ -580,7 +580,7 @@ public class Chunk {
     public @NotNull List<ChunkMsgStore> getRetainedFromMsgStore() {
         final @NotNull List<ChunkMsgStore> retainedMessages = new ArrayList<>();
         for (@NotNull ChunkMsgStore message : chunkMsgStores) {
-            if (message.getRetain() == 1) {
+            if (message.getRetain()) {
                 retainedMessages.add(message);
             }
         }

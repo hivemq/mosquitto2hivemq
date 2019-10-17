@@ -40,6 +40,10 @@ import static com.hivemq.backup.mosquitto.utils.DataExportZipper.convertTimeStam
 import static picocli.CommandLine.Command;
 import static picocli.CommandLine.Option;
 
+/**
+ * @author Lukas Brand
+ * @since 1.0
+ */
 @SuppressWarnings("unused")
 @Command(name = "HiveMQ Migration Tool", description = "Create a HiveMQ backup out of your persistent Mosquitto data.", version = "1.0", mixinStandardHelpOptions = true)
 public class XmlFromMosquittoDB implements Callable<Integer> {
@@ -72,11 +76,20 @@ public class XmlFromMosquittoDB implements Callable<Integer> {
     private static final @NotNull String hiveMqVersion = "4.2.1";
     private static final @NotNull String clusterId = "MOSQU";
 
-
+    /**
+     * Main method. Executes a new Command Line from pico-cli.
+     *
+     * @param args Input arguments.
+     */
     public static void main(final String... args) {
         new CommandLine(new XmlFromMosquittoDB()).setColorScheme(colorScheme).execute(args);
     }
 
+    /**
+     * Gets called by the pico-cli as new Command Line. Starts the migration.
+     *
+     * @return Indicates success or failure.
+     */
     @Override
     public Integer call() {
 
@@ -102,9 +115,9 @@ public class XmlFromMosquittoDB implements Callable<Integer> {
         }
 
         new RetainedMessagesExporter(exportTime, timestampedFolder, clusterId, hiveMqVersion, DATA_EXPORT_XML_MAX_FILE_SIZE)
-                .writeToXml(chunk.getRetainedFromMsgStore(), false);
+                .writeToXml(chunk.getRetainedFromMsgStore());
 
-        new ClientSessionExporter(exportTime, timestampedFolder, clusterId, hiveMqVersion, DATA_EXPORT_XML_MAX_FILE_SIZE)
+        new ClientSessionExporter(exportTime, timestampedFolder, clusterId, hiveMqVersion)
                 .writeToXml(chunk.getChunkClients(),
                         chunk.getChunkSubscriptions(),
                         chunk.getChunkClientMessages(),

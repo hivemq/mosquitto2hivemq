@@ -21,7 +21,9 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Lukas Brand
+ * @since 1.0
  */
+@SuppressWarnings("unused")
 public enum PropertyType {
 
     MQTT_PROP_PAYLOAD_FORMAT_INDICATOR(1),        /* Byte :				PUBLISH, Will Properties */
@@ -52,6 +54,9 @@ public enum PropertyType {
     MQTT_PROP_SUBSCRIPTION_ID_AVAILABLE(41),    /* Byte :				CONNACK */
     MQTT_PROP_SHARED_SUB_AVAILABLE(42);        /* Byte :				CONNACK */
 
+    /**
+     * Connects Property Type and its Integer value.
+     */
     private final static ImmutableMap<Integer, PropertyType> map;
 
     static {
@@ -66,9 +71,20 @@ public enum PropertyType {
         map = builder.build();
     }
 
+    /**
+     * Creates an enum of Type PropertyType.
+     *
+     * @param order Used to mark the PropertyType ordinal.
+     */
     PropertyType(final int order) {
     }
 
+    /**
+     * Getter method for the Property Type based on its integer value.
+     *
+     * @param i positive integer in range of 1-42.
+     * @return Property Type based on integer.
+     */
     public static @Nullable PropertyType getType(final int i) {
         return map.get(i);
     }

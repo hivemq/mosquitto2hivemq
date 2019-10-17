@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Florian Limpöck
- * @since 4.2.0
+ * @since 1.0
  */
 public class QueuedMessageXML {
 
@@ -41,7 +41,7 @@ public class QueuedMessageXML {
             this.name = name;
         }
 
-        
+
         public static @NotNull QueuedMessageType forName(final @NotNull String name) {
 
             final @NotNull QueuedMessageType[] queuedMessageTypes = values();
@@ -53,7 +53,7 @@ public class QueuedMessageXML {
             throw new IllegalArgumentException("No queued message type found for name: " + name);
         }
 
-        
+
         public @NotNull String getName() {
             return name;
         }

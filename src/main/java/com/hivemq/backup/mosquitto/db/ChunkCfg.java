@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2019 HiveMQ and the HiveMQ Community
  *
@@ -21,20 +20,41 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Lukas Brand
+ * @since 1.0
  */
 public class ChunkCfg {
 
+    /**
+     * Shutdown value of database.
+     */
     private final byte shutdown;
+
+    /**
+     * Id size of Database.
+     */
     private final byte dbIdSize;
+
+    /**
+     * Last stored message in the Database.
+     */
     private final long lastDbId;
 
-
+    /**
+     * Creates a Configuration Chunk. There is only one per database file.
+     * @param shutdown Internal Mosquitto value, not important for migration.
+     * @param dbIdSize Internal Mosquitto value, not important for migration.
+     * @param lastDbId Shows the highest stored id of the database. Not important for migration.
+     */
     ChunkCfg(final byte shutdown, final byte dbIdSize, final long lastDbId) {
         this.shutdown = shutdown;
         this.dbIdSize = dbIdSize;
         this.lastDbId = lastDbId;
     }
 
+    /**
+     * To String method for ChunkCfg to print out all fields.
+     * @return A String which is formatted to be print out as command line information.
+     */
     @Override
     public @NotNull String toString() {
         return "ChunkCfg{" +

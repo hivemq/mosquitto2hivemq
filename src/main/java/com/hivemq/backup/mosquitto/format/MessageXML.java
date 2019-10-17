@@ -14,14 +14,13 @@
  * limitations under the License.
  *
  */
-
 package com.hivemq.backup.mosquitto.format;
 
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Florian Limpöck
- * @since 4.2.0
+ * @since 1.0
  */
 public class MessageXML {
 

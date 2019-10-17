@@ -20,15 +20,29 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Lukas Brand
+ * @since 1.0
  */
 public class ChunkRetain {
 
+    /**
+     * The retained messages store id.
+     */
     private final long storeId;
 
+    /**
+     * Creates a Retain Chunk. This is created for every retained message.
+     *
+     * @param storeId The retained messages store id.
+     */
     ChunkRetain(long storeId) {
         this.storeId = storeId;
     }
 
+    /**
+     * To String method for ChunkRetain to print out all fields.
+     *
+     * @return A String which is formatted to be print out as command line information.
+     */
     @Override
     public @NotNull String toString() {
         return "ChunkRetain{" +

@@ -21,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Lukas Brand
+ * @since 1.0
  */
 public enum ChunkType {
 
@@ -31,6 +32,9 @@ public enum ChunkType {
     DB_CHUNK_SUB(5),
     DB_CHUNK_CLIENT(6);
 
+    /**
+     * Connects Chunk Type and its Integer value.
+     */
     private final static ImmutableMap<Integer, ChunkType> map;
 
     static {
@@ -44,9 +48,20 @@ public enum ChunkType {
         map = builder.build();
     }
 
-    ChunkType(final int order) {
+    /**
+     * Creates an enum of Type ChunkType.
+     *
+     * @param order Used to mark the ChunkType ordinal.
+     */
+    ChunkType(@SuppressWarnings("unused") final int order) {
     }
 
+    /**
+     * Getter method for the Chunk Type based on its integer value.
+     *
+     * @param i positive integer in range of 1-6.
+     * @return Chunk Type based on integer.
+     */
     public static @Nullable ChunkType getType(final int i) {
         return map.get(i);
     }

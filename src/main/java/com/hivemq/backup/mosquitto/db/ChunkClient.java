@@ -20,15 +20,44 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Lukas Brand
+ * @since 1.0
  */
 public class ChunkClient {
 
+    /**
+     * The client's id value which cannot be null.
+     */
     private final @NotNull String clientId;
+
+    /**
+     * The client's last message id which it had an action with.
+     */
     private final short lastMid;
+
+    /**
+     * The client's session expiry interval in seconds.
+     */
     private final long sessionExpiryInterval;
+
+    /**
+     * The client's session expiry time in seconds.
+     */
     private final long sessionExpiryTime;
 
+    /**
+     * Explicit connection status for all clients. Due to the migration every client is not connected to the new Broker.
+     */
+    @SuppressWarnings("FieldCanBeLocal")
+    private final boolean connectionStatus = false;
 
+    /**
+     * Creates a Client Chunk. This represents a Client who needs to have an existing Session which has not expired yet.
+     *
+     * @param clientId              The client's id value which cannot be null.
+     * @param lastMid               The client's last message id which it had an action with.
+     * @param sessionExpiryTime     The client's session expiry time in seconds.
+     * @param sessionExpiryInterval The client's session expiry interval in seconds.
+     */
     ChunkClient(@NotNull final String clientId, final short lastMid, final long sessionExpiryTime, final int sessionExpiryInterval) {
         this.clientId = clientId;
         this.sessionExpiryTime = sessionExpiryTime;
@@ -36,18 +65,38 @@ public class ChunkClient {
         this.lastMid = lastMid;
     }
 
+    /**
+     * Getter method for the client's id.
+     *
+     * @return A String which is not null.
+     */
     public @NotNull String getClientId() {
         return clientId;
     }
 
+    /**
+     * Getter method for client's session expiry interval.
+     *
+     * @return A long which must be positive.
+     */
     public long getSessionExpiryInterval() {
         return sessionExpiryInterval;
     }
 
+    /**
+     * Explicit getter method for client's connection status.
+     *
+     * @return Always false.
+     */
     public boolean isConnected() {
-        return false;
+        return connectionStatus;
     }
 
+    /**
+     * To String method for ChunkClient to print out all fields.
+     *
+     * @return A String which is formatted to be print out as command line information.
+     */
     @Override
     public @NotNull String toString() {
         return "ChunkClient{" +
@@ -57,6 +106,4 @@ public class ChunkClient {
                 ", sessionExpiryTime=" + sessionExpiryTime +
                 '}';
     }
-
-
 }
