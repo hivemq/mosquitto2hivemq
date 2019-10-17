@@ -215,7 +215,7 @@ task cleanPackaging {
     }
 }
 
-task copyJar(type: Copy) {
+task copyFiles(type: Copy) {
     group 'packaging'
 
     mustRunAfter ':cleanPackaging'
@@ -223,13 +223,17 @@ task copyJar(type: Copy) {
 
     from "${buildDir}/libs/${projectString}.jar"
     destinationDir = new File("${project.packagingDir}")
+
+    from "${buildDir}/README.md"
+    into "${project.packagingDir}"
+
 }
 
 task packagingDistribution( type: Zip) {
     group 'packaging'
 
     dependsOn ':cleanPackaging'
-    dependsOn ':copyJar'
+    dependsOn ':copyFiles'
 
     archiveFileName = "${projectString}.zip"
     destinationDirectory =  new File("${pkgDir}")
