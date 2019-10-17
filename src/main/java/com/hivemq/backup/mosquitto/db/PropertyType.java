@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Lukas Brand
- * @since 1.0
+ * @since 1.0.0
  */
 @SuppressWarnings("unused")
 public enum PropertyType {

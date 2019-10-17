@@ -42,10 +42,12 @@ import static picocli.CommandLine.Option;
 
 /**
  * @author Lukas Brand
- * @since 1.0
+ * @since 1.0.0
  */
 @SuppressWarnings("unused")
-@Command(name = "HiveMQ Migration Tool", description = "Create a HiveMQ backup out of your persistent Mosquitto data.", version = "1.0", mixinStandardHelpOptions = true)
+@Command(name = "HiveMQ Migration Tool",
+        description = "Create a HiveMQ backup out of your persistent Mosquitto data.",
+        mixinStandardHelpOptions = true )
 public class XmlFromMosquittoDB implements Callable<Integer> {
 
     @Option(names = {"-i", "--input"}, required = true, description = "Input file (mosquitto.db)")
@@ -64,17 +66,18 @@ public class XmlFromMosquittoDB implements Callable<Integer> {
     private boolean forceCreationWithFailures;
 
 
-    private final static @NotNull ColorScheme colorScheme = new ColorScheme.Builder()
-            .commands(Style.bold, Style.underline)    // combine multiple styles
-            .options(Style.fg_yellow)                // yellow foreground color
-            .parameters(Style.fg_yellow)
-            .optionParams(Style.italic).build();
-
+    private final static @NotNull ColorScheme colorScheme =  new CommandLine.Help.ColorScheme.Builder(CommandLine.Help.Ansi.ON)
+            .commands(CommandLine.Help.Ansi.Style.bold, CommandLine.Help.Ansi.Style.fg_yellow)
+            .options(CommandLine.Help.Ansi.Style.italic, CommandLine.Help.Ansi.Style.fg_yellow)
+            .parameters(CommandLine.Help.Ansi.Style.fg_yellow)
+            .optionParams(CommandLine.Help.Ansi.Style.italic)
+            .build();
 
     private static final int DATA_EXPORT_XML_MAX_FILE_SIZE = 10 * 1024 * 1024;
     private static final int DATA_EXPORT_ZIP_BUFFER_SIZE = 1024 * 1024;
     private static final @NotNull String hiveMqVersion = "4.2.1";
     private static final @NotNull String clusterId = "MOSQU";
+    public static final int C_WIDTH = 160;
 
     /**
      * Main method. Executes a new Command Line from pico-cli.
@@ -82,7 +85,11 @@ public class XmlFromMosquittoDB implements Callable<Integer> {
      * @param args Input arguments.
      */
     public static void main(final String... args) {
-        new CommandLine(new XmlFromMosquittoDB()).setColorScheme(colorScheme).execute(args);
+        new CommandLine(new XmlFromMosquittoDB())
+                .setColorScheme(colorScheme)
+                .setUsageHelpWidth(C_WIDTH)
+                .execute(args);
+
     }
 
     /**

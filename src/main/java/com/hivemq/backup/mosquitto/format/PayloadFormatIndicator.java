@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
  * Payload Format Indicator according to the MQTT 5 specification.
  *
  * @author Silvio Giebl
- * @since 1.0
+ * @since 1.0.0
  */
 public enum PayloadFormatIndicator {
 

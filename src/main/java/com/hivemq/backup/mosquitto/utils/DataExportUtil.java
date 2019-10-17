@@ -33,7 +33,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * @author Florian Limpöck
- * @since 1.0
+ * @since 1.0.0
  */
 public class DataExportUtil {
 

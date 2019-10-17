@@ -41,7 +41,7 @@ import static com.hivemq.backup.mosquitto.format.GlobalXML.EXPORTED_AT;
 
 /**
  * @author Florian Limpöck
- * @since 1.0
+ * @since 1.0.0
  */
 
 public class RetainedMessagesExporter {

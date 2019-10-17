@@ -39,7 +39,7 @@ import static org.apache.commons.compress.utils.IOUtils.copy;
 
 /**
  * @author Florian Limpöck
- * @since 1.0
+ * @since 1.0.0
  */
 public class DataExportZipper {
 

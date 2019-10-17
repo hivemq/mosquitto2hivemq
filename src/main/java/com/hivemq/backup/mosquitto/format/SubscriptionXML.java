@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Florian Limpöck
- * @since 1.0
+ * @since 1.0.0
  */
 public class SubscriptionXML {
 

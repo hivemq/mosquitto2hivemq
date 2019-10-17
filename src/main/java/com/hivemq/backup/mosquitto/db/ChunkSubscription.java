@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Lukas Brand
- * @since 1.0
+ * @since 1.0.0
  */
 public class ChunkSubscription {
 

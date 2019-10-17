@@ -17,35 +17,102 @@ repositories {
     mavenCentral()
 }
 
+
+ext {
+    moduleName = 'com.hivemq.cli'
+    readableName = 'mosquitto2hivemq'
+    appName = 'Mosquitto2HiveMQ'
+    githubOrg = 'hivemq'
+    githubRepo = 'mosquitto2hivemq'
+    githubUrl = 'https://github.com/' + githubOrg + '/' + githubRepo
+    scmConnection = 'scm:git:git://github.com/' + githubOrg + '/' + githubRepo + '.git'
+    scmDeveloperConnection = 'scm:git:ssh://git@github.com/' + githubOrg + '/' + githubRepo + '.git'
+    issuesUrl = githubUrl + '/issues'
+    prevVersion = ''
+
+    appJarName = "${readableName}.jar"
+
+    // Directories
+    pkgDir = "${projectDir}/packages/${project.version}"
+
+    // Vendor details
+    copyright = "Copyright 2019 HiveMQ and the HiveMQ Community"
+    vendor = "HiveMQ GmbH"
+    website = "https://www.hivemq.com/"
+    license = "${projectDir}/LICENSE"
+
+    projectString = "mosquitto2hivemq-${project.version}"
+    packagingDir = "${buildDir}/package"
+    packagingProjectDir = "${packagingDir}/${projectString}"
+
+
+    // Dependency versions
+    picocliVersion = '4.0.4'
+    jline3Version = '3.12.1'
+    jline3JansiVersion = '3.12.1'
+    daggerVersion = '2.21'
+    guavaVersion ='28.1-jre'
+
+    hivemqclientVersion = '1.1.2'
+    tinylogVersion = '2.0.0'
+    jcToolsVersion = '2.1.2'
+    jetbrainsAnnotationsVersion = '17.0.0'
+
+    jbossShrinkWrapVersion = '1.2.6'
+    netOpenhftZeroAllocationHashingVersion = '0.9'
+    apacheCommonsCompressVersion = '1.19'
+    apacheCommonsIoVersion = '2.6'
+    apacheCommonsLangVersion = '3.9'
+    junitJupiterVersion = '5.5.2'
+    testcontainersVersion = '1.12.1'
+    xmlUnitVersion = '2.6.3'
+    assertjVersion = '3.11.1'
+}
+
+
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 dependencies {
-    compile 'org.apache.commons:commons-compress:1.19'
-    compile 'com.google.guava:guava:28.1-jre'
-    compile 'commons-io:commons-io:2.6'
-    compile 'org.apache.commons:commons-lang3:3.9'
-    compile 'info.picocli:picocli:4.0.4'
-    compile 'info.picocli:picocli-codegen:4.0.4'
-    compile 'org.jboss.shrinkwrap:shrinkwrap-api:1.2.6'
-    compile 'net.openhft:zero-allocation-hashing:0.9'
-    compile 'org.jetbrains:annotations:17.0.0'
-    compile 'org.tinylog:tinylog-api:2.0.0'
-    compile 'org.tinylog:tinylog-impl:2.0.0'
-    testCompile 'org.jboss.shrinkwrap:shrinkwrap-impl-base:1.2.6'
-    testCompile 'org.junit.jupiter:junit-jupiter-api:5.5.2'
-    testCompile 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
-    testCompile 'org.junit.jupiter:junit-jupiter-params:5.5.2'
-    testCompile 'org.testcontainers:testcontainers:1.12.1'
-    testCompile 'org.testcontainers:junit-jupiter:1.12.1'
-    testCompile 'org.xmlunit:xmlunit-core:2.6.3'
-    testCompile 'org.xmlunit:xmlunit-matchers:2.6.3'
-    testCompile 'org.xmlunit:xmlunit-assertj:2.6.3'
-    testCompile 'org.xmlunit:xmlunit-placeholders:2.6.3'
-    testCompile 'com.hivemq:hivemq-mqtt-client:1.1.2'
+    implementation group: 'com.google.guava', name: 'guava', version: guavaVersion
+
+    compile group: 'org.jline', name: 'jline', version: jline3Version
+    compile group: 'org.jline', name: 'jline-terminal-jansi', version: jline3JansiVersion
+
+    implementation group: 'info.picocli', name: 'picocli', version: picocliVersion
+    implementation group: 'info.picocli', name: 'picocli-codegen', version: picocliVersion
+
+    implementation group: 'org.tinylog', name: 'tinylog-api', version: tinylogVersion
+    implementation group: 'org.tinylog', name: 'tinylog-impl', version: tinylogVersion
+
+    compile group: 'org.apache.commons', name: 'commons-compress', version: apacheCommonsCompressVersion
+    compile group: 'commons-io', name: 'commons-io', version: apacheCommonsIoVersion
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: apacheCommonsLangVersion
+
+    compile group:'net.openhft', name: 'zero-allocation-hashing', version: netOpenhftZeroAllocationHashingVersion
+    compile group: 'org.jetbrains', name: 'annotations', version: jetbrainsAnnotationsVersion
+
+
+    //testCompile group: 'com.hivemq', name: 'hivemq-mqtt-client', version: hivemqclientVersion
+
+    //testCompile group: 'org.jboss.shrinkwrap', name: 'shrinkwrap-impl-base', version: jbossShrinkWrapVersion
+
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junitJupiterVersion
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitJupiterVersion
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: junitJupiterVersion
+
+    //testCompile group: 'org.testcontainers', name: 'testcontainers', version: testcontainersVersion
+    //testCompile group: 'org.testcontainers', name: 'junit-jupiter', version: testcontainersVersion
+
+    //testCompile group: 'org.xmlunit', name: 'xmlunit-core', version: xmlUnitVersion
+    //testCompile group: 'org.xmlunit', name: 'xmlunit-matchers', version: xmlUnitVersion
+    //testCompile group: 'org.xmlunit', name: 'xmlunit-assertj', version: xmlUnitVersion
+    //testCompile group: 'org.xmlunit', name: 'xmlunit-placeholders', version: xmlUnitVersion
+
+    //testCompile group: 'org.assertj', name: 'assertj-core', version: assertjVersion
+
 }
 
-//sourceCompatibility = '11'
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
@@ -77,35 +144,6 @@ repositories {
     jcenter()
 }
 
-
-ext {
-    moduleName = 'com.hivemq.cli'
-    readableName = 'mosquitto2hivemq'
-    appName = 'Mosquitto2HiveMQ'
-    githubOrg = 'hivemq'
-    githubRepo = 'mosquitto2hivemq'
-    githubUrl = 'https://github.com/' + githubOrg + '/' + githubRepo
-    scmConnection = 'scm:git:git://github.com/' + githubOrg + '/' + githubRepo + '.git'
-    scmDeveloperConnection = 'scm:git:ssh://git@github.com/' + githubOrg + '/' + githubRepo + '.git'
-    issuesUrl = githubUrl + '/issues'
-    prevVersion = ''
-
-    appJarName = "${readableName}.jar"
-
-    // Directories
-    pkgDir = "${projectDir}/packages/${project.version}"
-
-    // Vendor details
-    copyright = "Copyright 2019 HiveMQ and the HiveMQ Community"
-    vendor = "HiveMQ GmbH"
-    website = "https://www.hivemq.com/"
-    license = "${projectDir}/LICENSE"
-
-    projectString = "mosquitto2hivemq-${project.version}"
-    packagingDir = "${buildDir}/package"
-    packagingProjectDir = "${packagingDir}/${projectString}"
-
-}
 
 /**************
  * Compliance *

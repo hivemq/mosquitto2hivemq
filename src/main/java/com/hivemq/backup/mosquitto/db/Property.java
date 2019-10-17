@@ -23,7 +23,7 @@ import java.util.Arrays;
 
 /**
  * @author Lukas Brand
- * @since 1.0
+ * @since 1.0.0
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class Property {
