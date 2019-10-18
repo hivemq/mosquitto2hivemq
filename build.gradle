@@ -113,8 +113,17 @@ dependencies {
 
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+// Project settings
+// Project settings
+javadoc.options.encoding = 'UTF-8'
+
+compileJava {
+    options.compilerArgs += ["-Aproject=${project.group}/${project.name}"]
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+    options.encoding = java.nio.charset.StandardCharsets.UTF_8
+}
+
 
 publishing {
     publications {

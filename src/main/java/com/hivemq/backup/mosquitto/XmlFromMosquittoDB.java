@@ -25,7 +25,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.tinylog.Logger;
 import picocli.CommandLine;
-import picocli.CommandLine.Help.Ansi.Style;
 import picocli.CommandLine.Help.ColorScheme;
 
 import java.io.File;
@@ -77,7 +76,7 @@ public class XmlFromMosquittoDB implements Callable<Integer> {
     private static final int DATA_EXPORT_ZIP_BUFFER_SIZE = 1024 * 1024;
     private static final @NotNull String hiveMqVersion = "4.2.1";
     private static final @NotNull String clusterId = "MOSQU";
-    public static final int C_WIDTH = 160;
+    private static final int TERMINAL_WIDTH = 160;
 
     /**
      * Main method. Executes a new Command Line from pico-cli.
@@ -87,7 +86,7 @@ public class XmlFromMosquittoDB implements Callable<Integer> {
     public static void main(final String... args) {
         new CommandLine(new XmlFromMosquittoDB())
                 .setColorScheme(colorScheme)
-                .setUsageHelpWidth(C_WIDTH)
+                .setUsageHelpWidth(TERMINAL_WIDTH)
                 .execute(args);
 
     }
