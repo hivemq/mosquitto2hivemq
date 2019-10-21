@@ -41,6 +41,7 @@ import static com.hivemq.backup.mosquitto.format.GlobalXML.EXPORTED_AT;
 
 /**
  * @author Florian Limpöck
+ * @author Lukas Brand
  * @since 1.0.0
  */
 

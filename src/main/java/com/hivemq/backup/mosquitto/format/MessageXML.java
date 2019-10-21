@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Florian Limpöck
+ * @author Lukas Brand
  * @since 1.0.0
  */
 public class MessageXML {

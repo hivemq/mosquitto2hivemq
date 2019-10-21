@@ -28,6 +28,10 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+/**
+ * @author Lukas Brand
+ * @since 1.0.0
+ */
 public class CopyUtil {
 
     /**

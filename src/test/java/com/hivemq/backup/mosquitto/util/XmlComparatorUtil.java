@@ -24,6 +24,10 @@ import org.xmlunit.diff.Difference;
 import java.io.File;
 import java.util.Set;
 
+/**
+ * @author Lukas Brand
+ * @since 1.0.0
+ */
 public class XmlComparatorUtil {
 
     public static boolean checkXmlEquality(File mosquittoXml, File hivemqXml) {

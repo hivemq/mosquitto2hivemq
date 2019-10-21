@@ -27,7 +27,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
+/**
+ * @author Lukas Brand
+ * @since 1.0.0
+ */
 public class XmlExtractorUtil {
 
     public static List<String> getHiveMqXmlFile(Path backupFile, Path outputFolder) throws IOException {

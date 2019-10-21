@@ -21,6 +21,10 @@ import org.junit.jupiter.api.extension.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * @author Lukas Brand
+ * @since 1.0.0
+ */
 //This class is a reimplementation of the JUnit 4 TemporaryFolder Rule as JUnit5 Extension
 public class TemporaryFolderExtension implements BeforeEachCallback, AfterEachCallback, ParameterResolver {
 

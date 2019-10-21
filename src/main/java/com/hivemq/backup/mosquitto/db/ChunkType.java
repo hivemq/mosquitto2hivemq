@@ -33,7 +33,7 @@ public enum ChunkType {
     DB_CHUNK_CLIENT(6);
 
     /**
-     * Connects Chunk Type and its Integer value.
+     * Connects a Chunk Type with its Integer value.
      */
     private final static ImmutableMap<Integer, ChunkType> map;
 
