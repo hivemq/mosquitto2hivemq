@@ -73,7 +73,7 @@ public class Chunk {
      *
      * @hidden
      */
-    public Chunk(boolean forceCreationWithFailures) {
+    public Chunk(final boolean forceCreationWithFailures) {
 
         this.forceCreationWithFailures = forceCreationWithFailures;
     }
@@ -86,7 +86,7 @@ public class Chunk {
      * @throws IOException Throws an IOException if the File cannot be found.
      */
     @NotNull
-    public byte[] readMosquittoDbFile(@NotNull final Path filePath) throws IOException {
+    public byte[] readMosquittoDbFile(final @NotNull Path filePath) throws IOException {
         return Files.readAllBytes(filePath);
     }
 
@@ -106,21 +106,21 @@ public class Chunk {
      * @param displayChunks Enables a detailed printout of useful information about the process.
      * @throws IllegalArgumentException Throws an IllegalArgumentException if the databases binary header does not match with the default header.
      */
-    public void createChunksFromBinary(@NotNull final byte[] dbBytes, boolean displayChunks) throws IllegalArgumentException {
+    public void createChunksFromBinary(final @NotNull byte[] dbBytes, final boolean displayChunks) throws IllegalArgumentException {
         final @NotNull ByteBuffer byteBuffer = ByteBuffer.wrap(dbBytes);
 
         //MAGIC HEADER:
-        final @NotNull byte[] magic = {0x00, (byte) 0xB5, 0x00, 'm', 'o', 's', 'q', 'u', 'i', 't', 't', 'o', ' ', 'd', 'b'};
+        final @NotNull byte[] fileIdentifierHeader = {0x00, (byte) 0xB5, 0x00, 'm', 'o', 's', 'q', 'u', 'i', 't', 't', 'o', ' ', 'd', 'b'};
         final @NotNull byte[] header = Arrays.copyOfRange(byteBuffer.array(), 0, 15);
-        if (Arrays.equals(magic, header)) {
+        if (Arrays.equals(fileIdentifierHeader, header)) {
             if (displayChunks) {
                 Logger.info("Magic header are equal.");
             }
         } else {
             if (!forceCreationWithFailures) {
-                throw new IllegalArgumentException("Unsupported Database File. Magic header does not match. Exiting.");
+                throw new IllegalArgumentException("Unsupported Database File. File header does not match. Exiting.");
             } else {
-                Logger.error("Unsupported Database File. Magic header does not match.");
+                Logger.error("Unsupported Database File. File header does not match.");
             }
         }
 
@@ -253,7 +253,7 @@ public class Chunk {
      * @param subBytes Byte Array containing all persistent Chunks created by Mosquitto.
      * @param index    The index of the Subscription-Chunk after its length attribute.
      */
-    private void getSubscriptionChunk(@NotNull final ByteBuffer subBytes, final int index) {
+    private void getSubscriptionChunk(final @NotNull ByteBuffer subBytes, final int index) {
         int chunkIndex = index;
         final int identifier = subBytes.getInt(chunkIndex);
         chunkIndex += Integer.BYTES;
@@ -286,7 +286,7 @@ public class Chunk {
      * @param index       The index of the Retain-Chunk after its length attribute.
      */
     @SuppressWarnings("UnusedAssignment")
-    private void getRetainChunk(@NotNull final ByteBuffer clientBytes, final int index) {
+    private void getRetainChunk(final @NotNull ByteBuffer clientBytes, final int index) {
         int chunkIndex = index;
         final long storeId = clientBytes.duplicate().order(ByteOrder.LITTLE_ENDIAN).getLong(chunkIndex);
         chunkIndex += Long.BYTES;
@@ -307,7 +307,7 @@ public class Chunk {
      * @param clientBytes Byte Array containing all persistent Chunks created by Mosquitto.
      * @param index       The index of the Client-Chunk after its length attribute.
      */
-    private void getClientChunk(@NotNull final ByteBuffer clientBytes, final int index) {
+    private void getClientChunk(final @NotNull ByteBuffer clientBytes, final int index) {
         int chunkIndex = index;
         final long sessionExpiryTime = clientBytes.duplicate().order(ByteOrder.LITTLE_ENDIAN).getLong(chunkIndex);
         chunkIndex += Long.BYTES;
@@ -341,7 +341,7 @@ public class Chunk {
      * @param index               The index of the ClientMessage-Chunk after its length attribute.
      * @param clientMessageLength The length of the whole ClientMessage-Chunk.
      */
-    private void getClientMessageChunk(@NotNull final ByteBuffer clientMessageBytes, final int index, final int clientMessageLength) {
+    private void getClientMessageChunk(final @NotNull ByteBuffer clientMessageBytes, final int index, final int clientMessageLength) {
         int chunkIndex = index;
         final long storeId = clientMessageBytes.duplicate().order(ByteOrder.LITTLE_ENDIAN).getLong(chunkIndex);
         chunkIndex += Long.BYTES;
@@ -358,7 +358,7 @@ public class Chunk {
         final byte direction = clientMessageBytes.get(chunkIndex);
         chunkIndex += Byte.BYTES;
 
-        @NotNull final String clientId = new String(Arrays.copyOfRange(clientMessageBytes.array(), chunkIndex, chunkIndex + idLength));
+        final @NotNull String clientId = new String(Arrays.copyOfRange(clientMessageBytes.array(), chunkIndex, chunkIndex + idLength));
         chunkIndex += idLength;
 
         final int absoluteLength = index + clientMessageLength;
@@ -390,7 +390,7 @@ public class Chunk {
      * @param index          The index of the MessageStore-Chunk after its length attribute.
      * @param msgStoreLength The length of the whole MessageStore-Chunk.
      */
-    private void getMsgStoreChunk(@NotNull final ByteBuffer msgStoreBytes, final int index, final int msgStoreLength) {
+    private void getMsgStoreChunk(final @NotNull ByteBuffer msgStoreBytes, final int index, final int msgStoreLength) {
         int chunkIndex = index;
         final long storeId = msgStoreBytes.duplicate().order(ByteOrder.LITTLE_ENDIAN).getLong(chunkIndex);
         chunkIndex += Long.BYTES;
@@ -458,8 +458,7 @@ public class Chunk {
      * @param absoluteLength  The length of the whole Chunk.
      * @return Returns an unmodifiable List of Properties.
      */
-    @NotNull
-    private List<Property> getProperties(@NotNull ByteBuffer propertiesBytes, int chunkIndex, int absoluteLength) {
+    private @NotNull List<Property> getProperties(@NotNull ByteBuffer propertiesBytes, int chunkIndex, int absoluteLength) {
 
         final @NotNull List<Property> properties = new ArrayList<>();
         if (chunkIndex < absoluteLength) /* Checks for Properties */ {

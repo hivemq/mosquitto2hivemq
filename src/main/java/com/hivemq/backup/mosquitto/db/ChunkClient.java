@@ -58,7 +58,7 @@ public class ChunkClient {
      * @param sessionExpiryTime     The client's session expiry time in seconds.
      * @param sessionExpiryInterval The client's session expiry interval in seconds.
      */
-    ChunkClient(@NotNull final String clientId, final short lastMid, final long sessionExpiryTime, final int sessionExpiryInterval) {
+    ChunkClient(final @NotNull String clientId, final short lastMid, final long sessionExpiryTime, final int sessionExpiryInterval) {
         this.clientId = clientId;
         this.sessionExpiryTime = sessionExpiryTime;
         this.sessionExpiryInterval = (sessionExpiryInterval != 0xFFFF_FFFF) ? sessionExpiryInterval : 0xFFFF_FFFFL;

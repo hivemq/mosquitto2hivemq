@@ -16,6 +16,7 @@
  */
 package com.hivemq.backup.mosquitto.util;
 
+import org.jetbrains.annotations.NotNull;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.diff.Comparison;
 import org.xmlunit.diff.Diff;
@@ -30,11 +31,11 @@ import java.util.Set;
  */
 public class XmlComparatorUtil {
 
-    public static boolean checkXmlEquality(File mosquittoXml, File hivemqXml) {
-        final Set<String> attributes = Set.of("disconnected-since", "hivemq-version", "exported-at");
-        final Set<String> nodes = Set.of("timestamp", "exported-at");
+    public static boolean checkXmlEquality(final @NotNull File mosquittoXml, final @NotNull File hivemqXml) {
+        final @NotNull Set<String> attributes = Set.of("disconnected-since", "hivemq-version", "exported-at");
+        final @NotNull Set<String> nodes = Set.of("timestamp", "exported-at");
 
-        final Diff differences = DiffBuilder.compare(mosquittoXml)
+        final @NotNull Diff differences = DiffBuilder.compare(mosquittoXml)
                 .withTest(hivemqXml)
                 .ignoreComments()
                 .ignoreWhitespace()
@@ -42,8 +43,8 @@ public class XmlComparatorUtil {
                 .withNodeFilter(node -> !nodes.contains(node.getParentNode().getNodeName()))
                 .build();
 
-        for (Difference difference : differences.getDifferences()) {
-            final Comparison.Detail controlDetails = difference.getComparison().getControlDetails();
+        for (final @NotNull Difference difference : differences.getDifferences()) {
+            final @NotNull Comparison.Detail controlDetails = difference.getComparison().getControlDetails();
             switch (controlDetails.getTarget().getParentNode().getNodeName()) {
                 case "publish-id":
                     final int mosquittoPublishId = Integer.parseInt((String) controlDetails.getValue());
@@ -54,7 +55,7 @@ public class XmlComparatorUtil {
                     break;
 
                 case "cluster-id":
-                    final String mosquittoFakeClusterId = (String)controlDetails.getValue();
+                    final @NotNull String mosquittoFakeClusterId = (String)controlDetails.getValue();
                     if (!mosquittoFakeClusterId.equals("MOSQU")) {
                         System.out.println("Cluster");
                         return false;

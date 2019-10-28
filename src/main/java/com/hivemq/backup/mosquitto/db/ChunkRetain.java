@@ -34,7 +34,7 @@ public class ChunkRetain {
      *
      * @param storeId The retained messages store id.
      */
-    ChunkRetain(long storeId) {
+    ChunkRetain(final long storeId) {
         this.storeId = storeId;
     }
 

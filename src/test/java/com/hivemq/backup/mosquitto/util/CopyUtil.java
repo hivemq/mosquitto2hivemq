@@ -42,7 +42,7 @@ public class CopyUtil {
      * @return Return a list of files that were unpacked (directories are excluded).
      * @throws IOException Thrown if there is a problem with extracting the zip file.
      */
-    public static List<String> unZip(@NotNull final String zipFilePath, @NotNull final String outputDir) throws IOException {
+    public static List<String> unZip(final @NotNull String zipFilePath, final @NotNull String outputDir) throws IOException {
 
         final File zipFile = new File(zipFilePath);
         final List<String> fileNames = new ArrayList<>();
@@ -75,7 +75,7 @@ public class CopyUtil {
         return fileNames;
     }
 
-    private static File newFile(@NotNull final File destinationDir, @NotNull final ZipEntry zipEntry) throws IOException {
+    private static File newFile(final @NotNull File destinationDir, final @NotNull ZipEntry zipEntry) throws IOException {
         final File destFile = new File(destinationDir, zipEntry.getName());
 
         final String destDirPath = destinationDir.getCanonicalPath();
@@ -96,7 +96,7 @@ public class CopyUtil {
      * @return The String that contains the matchString or <b>null</b> if it didn't match any String in the list.
      */
     @Nullable
-    public static String fetchFirstMatchFromList(@NotNull final List<String> list, final @NotNull String matchString) {
+    public static String fetchFirstMatchFromList(final @NotNull List<String> list, final @NotNull String matchString) {
 
         for (String entry : list) {
             if (entry.contains(matchString)) {

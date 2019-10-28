@@ -57,7 +57,7 @@ public enum PropertyType {
     /**
      * Connects Property Type and its Integer value.
      */
-    private final static ImmutableMap<Integer, PropertyType> map;
+    private final static ImmutableMap<Integer, PropertyType> propertyTypesMap;
 
     static {
         final ImmutableMap.Builder<Integer, PropertyType> builder = ImmutableMap.builder();
@@ -68,7 +68,7 @@ public enum PropertyType {
                 .put(9, MQTT_PROP_CORRELATION_DATA)
                 .put(11, MQTT_PROP_SUBSCRIPTION_IDENTIFIER)
                 .put(38, MQTT_PROP_USER_PROPERTY);
-        map = builder.build();
+        propertyTypesMap = builder.build();
     }
 
     /**
@@ -86,6 +86,6 @@ public enum PropertyType {
      * @return Property Type based on integer.
      */
     public static @Nullable PropertyType getType(final int i) {
-        return map.get(i);
+        return propertyTypesMap.get(i);
     }
 }

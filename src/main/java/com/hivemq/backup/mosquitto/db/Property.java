@@ -114,12 +114,12 @@ public class Property {
      */
     Property(final @NotNull PropertyType identifier, final @NotNull String key) {
         this.identifier = identifier;
+        this.key = key;
 
         this.byteArrayValue = null;
         this.byteValue = 0;
         this.shortValue = 0;
         this.intValueOrVar = 0;
-        this.key = key;
     }
 
     /**

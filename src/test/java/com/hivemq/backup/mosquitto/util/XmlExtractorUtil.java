@@ -17,6 +17,7 @@
 package com.hivemq.backup.mosquitto.util;
 
 import com.hivemq.backup.mosquitto.XmlFromMosquittoDB;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -33,18 +34,18 @@ import java.util.stream.Stream;
  */
 public class XmlExtractorUtil {
 
-    public static List<String> getHiveMqXmlFile(Path backupFile, Path outputFolder) throws IOException {
+    public static @NotNull List<String> getHiveMqXmlFile(final @NotNull Path backupFile, final @NotNull Path outputFolder) throws IOException {
         //Get all Files of .backup File from HiveMQ
-        String hiveMqFolder = outputFolder.toString() + "/hivemq";
+        final @NotNull String hiveMqFolder = outputFolder.toString() + "/hivemq";
         return CopyUtil.unZip(backupFile.toString(), hiveMqFolder);
     }
 
-    public static List<String> getMosquittoXmlFile(Path mosquittoFile, Path outputFolder) throws IOException {
+    public static @NotNull List<String> getMosquittoXmlFile(Path mosquittoFile, Path outputFolder) throws IOException {
         //Get all Files of .backup File from Mosquitto
-        String mosquittoFolder = outputFolder + "/mosquitto";
+        final @NotNull String mosquittoFolder = outputFolder + "/mosquitto";
         XmlFromMosquittoDB.main("-i", mosquittoFile.toString(), "-o", mosquittoFolder + "/backup");
-        Stream<Path> walk = Files.walk(Paths.get(mosquittoFolder + "/backup"));
-        List<String> result = walk.filter(Files::isRegularFile).map(Path::toString)
+        final @NotNull Stream<Path> walk = Files.walk(Paths.get(mosquittoFolder + "/backup"));
+        final @NotNull List<String> result = walk.filter(Files::isRegularFile).map(Path::toString)
                 .collect(Collectors.toList());
         return CopyUtil.unZip(Objects.requireNonNull(CopyUtil.fetchFirstMatchFromList(result, "backup")), mosquittoFolder);
     }

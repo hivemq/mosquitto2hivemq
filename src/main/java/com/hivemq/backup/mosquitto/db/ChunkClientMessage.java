@@ -79,7 +79,14 @@ public class ChunkClientMessage {
      * @param clientId        The client id of the messages owning client.
      * @param properties      The messages properties.
      */
-    ChunkClientMessage(long storeId, final int mid, byte qos, byte state, byte retainDuplicate, byte direction, final @NotNull String clientId, final @NotNull List<Property> properties) {
+    ChunkClientMessage(final long storeId,
+                       final int mid,
+                       final byte qos,
+                       final byte state,
+                       final byte retainDuplicate,
+                       final byte direction,
+                       final @NotNull String clientId,
+                       final @NotNull List<Property> properties) {
         this.storeId = storeId;
         this.mid = mid;
         this.qos = qos;
@@ -141,7 +148,10 @@ public class ChunkClientMessage {
      * @return A List which cannot be null.
      */
     public @NotNull List<Integer> getSubscriptionIdentifier() {
-        return properties.stream().filter(property -> property.getIdentifier() == PropertyType.MQTT_PROP_SUBSCRIPTION_IDENTIFIER).map(Property::getIntValueOrVar).collect(Collectors.toList());
+        return properties.stream()
+                .filter(property -> property.getIdentifier() == PropertyType.MQTT_PROP_SUBSCRIPTION_IDENTIFIER)
+                .map(Property::getIntValueOrVar)
+                .collect(Collectors.toList());
     }
 
     /**

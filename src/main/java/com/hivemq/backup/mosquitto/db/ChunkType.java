@@ -35,7 +35,7 @@ public enum ChunkType {
     /**
      * Connects a Chunk Type with its Integer value.
      */
-    private final static ImmutableMap<Integer, ChunkType> map;
+    private final static ImmutableMap<Integer, ChunkType> chunkTypesMap;
 
     static {
         final ImmutableMap.Builder<Integer, ChunkType> builder = ImmutableMap.builder();
@@ -45,7 +45,7 @@ public enum ChunkType {
                 .put(4, DB_CHUNK_RETAIN)
                 .put(5, DB_CHUNK_SUB)
                 .put(6, DB_CHUNK_CLIENT);
-        map = builder.build();
+        chunkTypesMap = builder.build();
     }
 
     /**
@@ -63,6 +63,6 @@ public enum ChunkType {
      * @return Chunk Type based on integer.
      */
     public static @Nullable ChunkType getType(final int i) {
-        return map.get(i);
+        return chunkTypesMap.get(i);
     }
 }
