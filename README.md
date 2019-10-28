@@ -5,7 +5,7 @@ MQTT 5.0 and 3.1.1 compatible migration tool to migrate your persistent connecti
 ## Features
 
 - **All MQTT 3.1.1 and MQTT 5.0 features** are supported (except shared subscriptions, which are not directly persisted in Mosquitto)
-- latest Mosquitto support (1.6.7)
+- latest Mosquitto support (1.6.7) as well as all 1.6.* releases
 - easy to use
 
 ### Prerequisites
