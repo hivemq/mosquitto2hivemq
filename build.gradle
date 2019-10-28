@@ -1,0 +1,318 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+    dependencies {
+        classpath 'biz.aQute.bnd:biz.aQute.bnd.gradle:4.2.0'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'application'
+    id "com.github.hierynomus.license" version "0.15.0"
+    id 'com.github.johnrengelman.shadow' version '4.0.4' apply false
+    id 'com.github.breadmoirai.github-release' version '2.2.9'
+    id 'com.jfrog.bintray' version '1.8.4' apply false
+
+}
+
+
+ext {
+    moduleName = 'com.hivemq.cli'
+    readableName = 'mosquitto2hivemq'
+    appName = 'Mosquitto2HiveMQ'
+    githubOrg = 'hivemq'
+    githubRepo = 'mosquitto2hivemq'
+    githubUrl = 'https://github.com/' + githubOrg + '/' + githubRepo
+    scmConnection = 'scm:git:git://github.com/' + githubOrg + '/' + githubRepo + '.git'
+    scmDeveloperConnection = 'scm:git:ssh://git@github.com/' + githubOrg + '/' + githubRepo + '.git'
+    issuesUrl = githubUrl + '/issues'
+    prevVersion = ''
+
+    appJarName = "${readableName}.jar"
+
+
+    // Vendor details
+    copyright = "Copyright 2019 HiveMQ and the HiveMQ Community"
+    vendor = "HiveMQ GmbH"
+    website = "https://www.hivemq.com/"
+    license = "${projectDir}/LICENSE"
+
+    // Directories
+    projectString = "mosquitto2hivemq-${project.version}"
+    packagingDir = "${buildDir}/package"
+    packagingProjectDir = "${packagingDir}/${projectString}"
+    pkgDir = "${projectDir}/packages/${project.version}"
+
+    // Dependency versions
+    picocliVersion = '4.0.4'
+    jline3Version = '3.12.1'
+    jline3JansiVersion = '3.12.1'
+    daggerVersion = '2.21'
+    guavaVersion ='28.1-jre'
+
+    hivemqclientVersion = '1.1.2'
+    tinylogVersion = '2.0.0'
+    jcToolsVersion = '2.1.2'
+    jetbrainsAnnotationsVersion = '17.0.0'
+
+    jbossShrinkWrapVersion = '1.2.6'
+    netOpenhftZeroAllocationHashingVersion = '0.9'
+    apacheCommonsCompressVersion = '1.19'
+    apacheCommonsIoVersion = '2.6'
+    apacheCommonsLangVersion = '3.9'
+    junitJupiterVersion = '5.5.2'
+    testcontainersVersion = '1.12.1'
+    xmlUnitVersion = '2.6.3'
+    assertjVersion = '3.11.1'
+}
+
+
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+dependencies {
+    implementation group: 'com.google.guava', name: 'guava', version: guavaVersion
+
+    compile group: 'org.jline', name: 'jline', version: jline3Version
+    compile group: 'org.jline', name: 'jline-terminal-jansi', version: jline3JansiVersion
+
+    implementation group: 'info.picocli', name: 'picocli', version: picocliVersion
+    implementation group: 'info.picocli', name: 'picocli-codegen', version: picocliVersion
+
+    implementation group: 'org.tinylog', name: 'tinylog-api', version: tinylogVersion
+    implementation group: 'org.tinylog', name: 'tinylog-impl', version: tinylogVersion
+
+    compile group: 'org.apache.commons', name: 'commons-compress', version: apacheCommonsCompressVersion
+    compile group: 'commons-io', name: 'commons-io', version: apacheCommonsIoVersion
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: apacheCommonsLangVersion
+
+    compile group:'net.openhft', name: 'zero-allocation-hashing', version: netOpenhftZeroAllocationHashingVersion
+    compile group: 'org.jetbrains', name: 'annotations', version: jetbrainsAnnotationsVersion
+
+
+    //testCompile group: 'com.hivemq', name: 'hivemq-mqtt-client', version: hivemqclientVersion
+
+    //testCompile group: 'org.jboss.shrinkwrap', name: 'shrinkwrap-impl-base', version: jbossShrinkWrapVersion
+
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junitJupiterVersion
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitJupiterVersion
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: junitJupiterVersion
+
+    //testCompile group: 'org.testcontainers', name: 'testcontainers', version: testcontainersVersion
+    //testCompile group: 'org.testcontainers', name: 'junit-jupiter', version: testcontainersVersion
+
+    testCompile group: 'org.xmlunit', name: 'xmlunit-core', version: xmlUnitVersion
+    testCompile group: 'org.xmlunit', name: 'xmlunit-matchers', version: xmlUnitVersion
+    testCompile group: 'org.xmlunit', name: 'xmlunit-assertj', version: xmlUnitVersion
+    testCompile group: 'org.xmlunit', name: 'xmlunit-placeholders', version: xmlUnitVersion
+
+    testCompile group: 'org.assertj', name: 'assertj-core', version: assertjVersion
+
+}
+
+// Project settings
+// Project settings
+javadoc.options.encoding = 'UTF-8'
+
+compileJava {
+    options.compilerArgs += ["-Aproject=${project.group}/${project.name}"]
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+    options.encoding = "UTF-8"
+}
+
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+group = 'com.hivemq'
+version = '1.0.0' + (Boolean.valueOf(System.getProperty("snapshot")) ? "-SNAPSHOT" : "")
+description = 'Mosquitto2HiveMQ is a tool that provides a migration from Mosquitto to HiveMQ '
+
+application {
+    mainClassName = 'com.hivemq.backup.mosquitto.XmlFromMosquittoDB'
+}
+
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+
+/**************
+ * Compliance *
+ **************/
+
+downloadLicenses {
+    ext.apacheTwo = license('Apache License, Version 2.0', 'http://opensource.org/licenses/Apache-2.0')
+    ext.cddlOnePointZero = license('CDDL, Version 1.0', 'http://glassfish.java.net/public/CDDLv1.0.html')
+    ext.cddlOnePointOne = license('CDDL, Version 1.1', 'http://glassfish.java.net/public/CDDL+GPL_1_1.html')
+    ext.lgplTwoPointOne = license('LGPL, Version 2.1', 'http://www.gnu.org/licenses/lgpl-2.1.html')
+    ext.eplOnePointZero = license('EPL, Version 1.0', 'http://www.eclipse.org/legal/epl-v10.html')
+
+    aliases = [
+            (apacheTwo)       : ['Apache License 2', 'Apache Software License - Version 2.0', 'The Apache Software License, Version 2.0', 'Apache 2', 'Apache License Version 2.0', 'Apache License, Version 2.0', 'Apache License 2.0', 'Apache 2.0', 'The Apache License, Version 2.0', license('Apache License', 'http://www.apache.org/licenses/LICENSE-2.0')],
+            (cddlOnePointZero): ['Common Development and Distribution License (CDDL) v1.0', 'COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0'],
+            (cddlOnePointOne) : ['CDDL 1.1'],
+            (lgplTwoPointOne) : ['LGPL 2.1', 'GNU Lesser General Public License'],
+            (eplOnePointZero) : ['Eclipse Public License - Version 1.0', 'Eclipse Public License', 'Eclipse Public License - v 1.0']
+    ]
+}
+
+license {
+    include "**/*.java"
+    header = file('HEADER')
+}
+
+
+task updateThirdPartyLicenses {
+    group 'license'
+    dependsOn ':downloadLicenses'
+    doLast {
+        javaexec {
+            main = '-jar'
+            args = ["${rootDir}/gradle/tools/license-third-party-tool-1.0.jar",
+                    "${buildDir}/reports/license/dependency-license.xml",
+                    "${projectDir}/src/packaging/third-party-licenses/licenses",
+                    "${projectDir}/src/packaging/third-party-licenses/licenses.html"
+            ]
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+    if (project.hasProperty("test_temp_dir")) {
+        jvmArgs "-Djava.io.tmpdir=" + test_temp_dir
+    } else {
+        def tempDir = System.properties['java.io.tmpdir']
+        if (tempDir) {
+            jvmArgs "-Djava.io.tmpdir=" + tempDir
+        }
+    }
+
+}
+
+jar {
+
+    manifest () {
+        attributes(
+                'Built-JDK': System.getProperty('java.version'),
+                'Implementation-Title': project.appName,
+                'Implementation-Version': project.version,
+                'Implementation-Vendor': project.vendor,
+                'Specification-Title': project.appName,
+                'Specification-Version': project.version,
+                'Specification-Vendor': project.vendor,
+                'Main-Class': application.mainClassName,
+                'Built-Date': new Date().format("yyyy-MM-dd HH:mm:ss")
+        )
+    }
+
+    from(configurations.runtime.resolve().collect { it.isDirectory() ? it : zipTree(it) }) {
+        exclude 'META-INF/MANIFEST.MF'
+        exclude 'META-INF/*.SF'
+        exclude 'META-INF/*.DSA'
+        exclude 'META-INF/*.RSA'
+    }
+
+    finalizedBy shadowJar
+}
+
+license {
+    include "**/*.java"
+    header = file('HEADER')
+}
+
+
+test {
+    useJUnitPlatform()
+    if (project.hasProperty("test_temp_dir")) {
+        jvmArgs "-Djava.io.tmpdir=" + test_temp_dir
+    } else {
+        def tempDir = System.properties['java.io.tmpdir']
+        if (tempDir) {
+            jvmArgs "-Djava.io.tmpdir=" + tempDir
+        }
+    }
+
+}
+
+task cleanPackaging {
+    group 'packaging'
+
+    doFirst {
+        delete "${project.packagingDir}"
+        delete "${pkgDir}"
+    }
+}
+
+task copyFiles(type: Copy) {
+    group 'packaging'
+
+    mustRunAfter ':cleanPackaging'
+    dependsOn ':jar'
+
+    from "${buildDir}/libs/${projectString}.jar"
+    destinationDir = new File("${project.packagingDir}")
+
+    from "${buildDir}/README.md"
+    into "${project.packagingDir}"
+
+}
+
+task packagingDistribution( type: Zip) {
+    group 'packaging'
+
+    dependsOn ':cleanPackaging'
+    dependsOn ':copyFiles'
+
+    archiveFileName = "${projectString}.zip"
+    destinationDirectory =  new File("${pkgDir}")
+
+    from "${project.packagingDir}"
+
+}
+
+githubRelease {
+    token "" + System.getenv("GITHUB_API_TOKEN")
+    owner = project.githubOrg
+    targetCommitish "develop"
+    body ""
+    draft true
+    prerelease false
+    releaseAssets file("${pkgDir}${projectString}.zip")
+    overwrite false
+}
+
+tasks.githubRelease.dependsOn tasks.packagingDistribution
+
+defaultTasks 'clean', 'packagingDistribution'
+
+// Helpers
+import java.security.DigestInputStream
+import java.security.MessageDigest
+static def checkSum(File file) {
+    file.withInputStream {
+        new DigestInputStream(it, MessageDigest.getInstance('SHA-256')).withStream {
+            it.eachByte {}
+            it.messageDigest.digest().encodeHex() as String
+        }
+    }
+}

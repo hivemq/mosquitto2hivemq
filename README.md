@@ -5,18 +5,28 @@ MQTT 5.0 and 3.1.1 compatible migration tool to migrate your persistent connecti
 ## Features
 
 - **All MQTT 3.1.1 and MQTT 5.0 features** are supported (except shared subscriptions, which are not directly persisted in Mosquitto)
-- latest Mosquitto support (1.6.7)
+- latest Mosquitto support (1.6.7) as well as all 1.6.* releases
 - easy to use
 
 ### Prerequisites
 
 The tool was created using Java 11.
 
+
 ### Quickstart
 
+#### Download
+There is a package prepared as release of the repository that can be  
+downloaded.
+
+` mosquitto2hivemq-<version>.zip`
+
+The Zip file contains a jar and the README.
+After downloading the package can be unzipped and migration can start.
+
 The simplest way to start the migration tool is typing:
-```$ java -jar migration-tool.jar -i <mosquitto.db>```
-See also ``java -jar migration-tool.jar --help``.
+```$ java -jar mosquitto2hivemq-1.0.0.jar -i <mosquitto.db>```
+See also ``java -jar mosquitto2hivemq-1.0.0.jar --help``.
 
 A timestamped folder will be created, which contains a handy backup file. You can then import this file via the HiveMQ Control Center under the Admin/Backup section.
 
@@ -24,7 +34,7 @@ A timestamped folder will be created, which contains a handy backup file. You ca
 
 To do a clean build, issue the following command:
 
-`$ ./mvn clean package`
+`$ ./gradlew build`
 
 This creates the **migration-tool.jar** which can then be executed.
 
@@ -37,7 +47,7 @@ This creates the **migration-tool.jar** which can then be executed.
 | ``-k`` | Keep the XML Files created by the migration tool for further investigation.
 | ``-v`` | Enable verbose mode to get more details during the migration.
 
-See also ``java -jar migration-tool.jar --help``
+See also ``java -jar mosquitto2hivemq-1.0.0.jar --help``
 
 ## License
 
