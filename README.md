@@ -17,7 +17,7 @@ The tool was created using Java 11.
 
 #### Download
 There is a package prepared as release of the repository that can be  
-downloaded. See [packages/1.0.0/mosquitto2hivemq-1.0.0.zip] (Zip file of the current package) 
+downloaded. See [packages/1.0.0/mosquitto2hivemq-1.0.0.zip](Zip file of the current package) 
 
 The Zip file contains a jar and the README.
 After downloading the package can be unzipped and migration can start.
